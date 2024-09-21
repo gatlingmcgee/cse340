@@ -10,10 +10,12 @@
 :root {
   --navBackgroundColor: rgb(47, 56, 97);
   --divFontColor: #8bb0c1;
+  --font: Arial, sans-serif;
 }
 
 html, body {
   overflow-x: auto;
+  font-family: var(--font)
 }
 
 img {
@@ -40,8 +42,12 @@ nav {
 }
 
 .navigationul li {
-  cursor: pointer;
   padding: 8px;
+}
+
+.navigationul a {
+  color: white;
+  text-decoration: none;
 }
 
 #tools {
@@ -63,12 +69,14 @@ nav {
 }
 
 .herodivfloat {
-  background-color: rgb(255, 255, 255, 0.5);
   position: absolute;
-  top: 185px;
-  padding: 0;
-  margin: 0;
+  top: 37%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.5);
   width: max-content;
+  text-align: center;
 }
 
 .herodivfloat p {
@@ -77,7 +85,8 @@ nav {
   color: var(--navBackgroundColor);
 }
 
-.herodivfloat h3 {
+
+.herodivfloat h2 {
   margin-bottom: 1px;
   color: var(--navBackgroundColor);
   font-weight: bold;
@@ -88,6 +97,10 @@ nav {
   color: black;
   background-color: lightblue;
   padding: 5px;
+}
+
+.reviewdiv h2 {
+  font-size: 20px;
 }
 
 .reviewdiv {
@@ -168,16 +181,16 @@ nav {
     display: block;
     margin: 0 auto;
     margin-bottom: 60px;
+    position: relative;
   }
-  
+
   .herodivfloat {
-    font-size: 20px;
-    position: absolute;
-    left: 390px;
-    top: 260px;
-    z-index: 1;
-    line-height: 1.2;
+    width: max-content;
+    padding: 20px;
+    top: 50%;
+    left: 35%;
   }
+
 
   .herodivfloat a {
     line-height: 3;
@@ -191,60 +204,5 @@ nav {
     float: right;
     line-height: 50px;
   }
-
-
-  /*
-
-  .containerreviewandupgrades {
-    display: grid;
-    grid-template-columns: auto auto;
-    margin: 50px;
-  }
-
-  .deloreanupgrades {
-    gap: 10px;
-  }
-  
-  */
-
-  /*
-
-  .reviewdiv {
-    position: relative;
-    left: 490px;
-    top: 100px;
-    line-height: 50px;
-  }
-
-  .deloreanupgrades {
-    position: relative;
-    right: 250px;
-    bottom: 200px;
-  }
-
-  h2 {
-    position: relative;
-    bottom: 220px;
-    left: 95px;
-  }
-
-  h3 {
-    position: relative;
-    left: 100px;
-  }
-
-  */
-
-  /*
-  .containerreviewandupgrades {
-    display: flex;
-    margin: 30px auto;
-  }
-
-  .reviewdiv, .deloreanupgrades {
-    flex: 1;
-    margin: 30px;
-  }
-  */
 
 }
