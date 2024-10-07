@@ -109,6 +109,7 @@ nav {
 }
 .deloreanupgrades {
   text-align: center;
+  margin-bottom: 30px;
 }
 
 .deloreanupgrades a {
@@ -130,6 +131,13 @@ nav {
   display: inline-grid;
   grid-template-columns: auto auto;
   gap: 20px;
+}
+
+.vehicle-detail img {
+  height: auto;
+  margin: 0 auto;
+  width: 60%;
+  display: block;
 }
 
 /*************** Larger (Computer) View ***************/
@@ -199,6 +207,23 @@ nav {
   .reviewdiv {
     float: right;
     line-height: 50px;
+  }
+
+  .vehicle-detail img {
+    height: auto;
+    width: 40%;
+    float: left;
+    margin-right: 20px;
+  }
+
+  .vehicle-detail p {
+    padding: 5px;
+    margin-left: 10px;
+    text-wrap: balance;
+  }
+
+  .vehicle-detail {
+    margin-bottom: 120px;
   }
 
 }

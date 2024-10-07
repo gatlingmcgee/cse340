@@ -45,6 +45,9 @@ app.use(async (req, res, next) => {
 * Express Error Handler
 * Place after all other middleware
 *************************/
+
+/*
+//404 errors
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
@@ -53,6 +56,34 @@ app.use(async (err, req, res, next) => {
     title: err.status || 'Server Error',
     message,
     nav
+  })
+})
+  */
+
+app.use(async (err, req, res, next) => {
+  let nav = await utilities.getNav()
+  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
+  
+  let message
+  
+  //404 error
+  if (err.status === 404) {
+      message = err.message
+      res.status(404)
+  //500 error
+  } else if (err.status === 500) {
+      message = 'There is a problem with the resource you are looking for, and it cannot be displayed.'
+      res.status(500)
+  }
+  //Server error
+  else {
+    message = 'Oh no! There was a crash. Try a different route, maybe, maybe not?'
+  }
+
+  res.render("errors/error", {
+      title: err.status || 'Server Error',
+      message,
+      nav
   })
 })
 
