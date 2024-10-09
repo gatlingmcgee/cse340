@@ -13,13 +13,41 @@ const app = express()
 const static = require("./routes/static")
 const inventoryRoute = require("./routes/inventoryRoute")
 const utilities = require("./utilities/index")
+const session = require("express-session")
+const pool = require('./database/')
+// account route - unit 4
+const accountRoute = require('./routes/accountRoute')
+
+
+/* ***********************
+ * Middleware
+ * ************************/
+app.use(session({
+  store: new (require('connect-pg-simple')(session))({
+    createTableIfMissing: true,
+    pool,
+  }),
+  secret: process.env.SESSION_SECRET,
+  resave: true,
+  saveUninitialized: true,
+  name: 'sessionId',
+}))
+
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
+
+
 
 /* ***********************
  * View engine and templates
  *************************/
 app.set("view engine", "ejs")
 app.use(expressLayouts)
-app.set("layout", "./layouts/layout") // not at views root
+app.set("layout", "./layouts/layout")
 
 /* ***********************
  * Routes
@@ -36,6 +64,9 @@ app.get("/", function(req, res){
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
+// account route - unit 4
+app.use("/account", require("./routes/accountRoute"))
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
@@ -43,7 +74,7 @@ app.use(async (req, res, next) => {
 
 /* ***********************
 * Express Error Handler
-* Place after all other middleware
+* Place after all other middleware - unit 3
 *************************/
 
 /*

@@ -40,4 +40,5 @@ invCont.triggerError = function (req, res, next) {
 }
 
 
+
 module.exports = invCont
