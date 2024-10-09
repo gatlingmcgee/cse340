@@ -17,6 +17,8 @@ const session = require("express-session")
 const pool = require('./database/')
 // account route - unit 4
 const accountRoute = require('./routes/accountRoute')
+// register package route - unit 4
+const bodyParser = require("body-parser")
 
 
 /* ***********************
@@ -40,7 +42,9 @@ app.use(function(req, res, next){
   next()
 })
 
-
+// makes body parser available to the aplication
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
 
 /* ***********************
  * View engine and templates
@@ -66,6 +70,7 @@ app.use("/inv", inventoryRoute)
 
 // account route - unit 4
 app.use("/account", require("./routes/accountRoute"))
+
 
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {

@@ -243,12 +243,16 @@ nav {
     text-align: center;
   }
 
-  .formdetails p, a {
+  .formdetails p {
     color: white;
     font-size: 20px;
   }
 
-  #email, #pass {
+  .linkcolor a {
+    color: white;
+  }
+
+  #account_email, #account_password,#account_firstname, #account_lastname {
     border: 0px solid;
     border-radius: 5px;
     margin: 10px;
@@ -272,5 +276,15 @@ nav {
   .formdetails label {
     float: left;
   }
+
+  /*
+  input:required:invalid {
+    border: 2px solid red;
+   }
+
+   input:required:valid {
+    border: 2px solid green;
+   }
+    */
 
 }
