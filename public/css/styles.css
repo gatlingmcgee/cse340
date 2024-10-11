@@ -243,13 +243,9 @@ nav {
     text-align: center;
   }
 
-  .formdetails p {
+  .formdetails p, .formdetails a {
     color: white;
     font-size: 20px;
-  }
-
-  .linkcolor a {
-    color: white;
   }
 
   #account_email, #account_password,#account_firstname, #account_lastname {
@@ -277,14 +273,12 @@ nav {
     float: left;
   }
 
-  /*
   input:required:invalid {
-    border: 2px solid red;
+    background-color: #F8DEDE;
    }
 
    input:required:valid {
-    border: 2px solid green;
+    background-color: #DEF8EC;
    }
-    */
 
 }
