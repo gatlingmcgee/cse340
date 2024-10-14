@@ -91,6 +91,85 @@ const accountModel = require("../models/account-model")
         .withMessage("Incorrect password credentials."),
     ]
   }
+
+    /* ******************************
+ * Rules for adding a Classification in Managment view
+ * ***************************** */
+    validate.ClassificationRules = () => {
+      return [
+        body("classification_name")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a correct classification name."), // on error this message is sent.
+      ]
+    }
+
+    validate.InventoryListRules = () => {
+      return [
+
+        // make is required and must be string
+        body("inv_make")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a make."), // on error this message is sent.
+    
+        // model is required and must be string
+        body("inv_model")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a model."), // on error this message is sent.
+  
+        // description is required and must be string
+        body("inv_description")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a description."), // on error this message is sent.
+    
+        // image path is required and must be string
+        body("inv_image")
+          .trim()
+          .notEmpty()
+          .withMessage("Please provide an image path."), // on error this message is sent.
+
+          // thumbnail is required and must be string
+        body("inv_thumbnail")
+        .trim()
+        .notEmpty()
+        .withMessage("Please provide a thumbnail path."), // on error this message is sent.
+
+        // price is required and must be string
+        body("inv_price")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a price."), // on error this message is sent.
+
+          // year is required and must be string
+        body("inv_year")
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage("Please provide a year."), // on error this message is sent.
+
+        // miles are required and must be string
+        body("inv_miles")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide the miles"), // on error this message is sent.
+
+          // color is required and must be string
+        body("inv_color")
+        .trim()
+        .escape()
+        .notEmpty()
+        .withMessage("Please provide a color"), // on error this message is sent.
+      ]
+    }
     
 
   /* ******************************
@@ -130,6 +209,49 @@ validate.checkRegData = async (req, res, next) => {
         account_firstname,
         account_lastname,
         account_email,
+      })
+      return
+    }
+    next()
+  }
+
+  validate.checkClassData = async (req, res, next) => {
+    const { classification_name } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      res.render("inventory/add-new-classification", {
+        errors,
+        title: "Add New Classification",
+        nav,
+        classification_name,
+      })
+      return
+    }
+    next()
+  }
+
+  validate.checkInventoryData = async (req, res, next) => {
+    const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      res.render("inventory/add-new-inventory", {
+        errors,
+        title: "Add New Inventory",
+        nav,
+        classificationList,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
       })
       return
     }
