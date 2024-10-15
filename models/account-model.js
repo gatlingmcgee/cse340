@@ -1,9 +1,7 @@
 // unit 4 registration
 const pool = require("../database/")
 
-/* *****************************
-*   Register new account
-* *************************** */
+// Register new account
 async function registerAccount(account_firstname, account_lastname, account_email, account_password){
     try {
       const sql = "INSERT INTO account (account_firstname, account_lastname, account_email, account_password, account_type) VALUES ($1, $2, $3, $4, 'Client') RETURNING *"
@@ -13,9 +11,7 @@ async function registerAccount(account_firstname, account_lastname, account_emai
     }
   }
 
-/* **********************
- *   Check for existing email
- * ********************* */
+// Check for existing email
 async function checkExistingEmail(account_email){
     try {
       const sql = "SELECT * FROM account WHERE account_email = $1"
@@ -25,7 +21,5 @@ async function checkExistingEmail(account_email){
       return error.message
     }
   }
-
-
 
   module.exports = { registerAccount, checkExistingEmail }

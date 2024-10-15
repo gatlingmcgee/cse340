@@ -1,15 +1,11 @@
 const pool = require("../database/")
 
-/* ***************************
- *  Get all classification data
- * ************************** */
+// Get all classification data
 async function getClassifications(){
   return await pool.query("SELECT * FROM public.classification ORDER BY classification_name")
 }
 
-/* ***************************
- *  Get all inventory items and classification_name by classification_id
- * ************************** */
+// Get all inventory items and classification_name by classification_id
 async function getInventoryByClassificationId(classification_id) {
   try {
     const data = await pool.query(
@@ -25,7 +21,7 @@ async function getInventoryByClassificationId(classification_id) {
   }
 }
 
-
+// Get all vehicles by (inv_id)
 async function getVehicleById(inv_id) {
   try {
     const data = await pool.query(
@@ -39,7 +35,7 @@ async function getVehicleById(inv_id) {
   }
 }
 
-// unit 4 assignment
+// unit 4 assignment - add the classification
 async function addClassification(classification_name) {
   try {
     const sql = "INSERT INTO public.classification (classification_name) VALUES ($1)"
@@ -50,22 +46,12 @@ async function addClassification(classification_name) {
   }
 }
 
-//async function AddNewInventory(inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color){
-//  try {
-//    console.log("Adding vehicle:", inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color);
-//   const sql = "INSERT INTO inventory (inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *"
-//    return await pool.query(sql, [inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color])
-//  } catch (error) {
-//    console.error("AddNewInventory error: " + error)
-//    throw error
-//  }
-//}
-
+// unit 4 assignment - add the vehicle to inventory
 async function AddNewInventory(inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id) {
   try {
     const sql = `INSERT INTO public.inventory (inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING *`
     const data = await pool.query(sql, [inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id])
-    return data.rows[0]; // Return inserted row to confirm success
+    return data.rows[0]; 
   } catch (error) {
     console.error("AddNewInventory error: " + error)
     throw error;

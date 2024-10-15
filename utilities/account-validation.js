@@ -1,45 +1,30 @@
 // unit 4 data validation 
-
 const utilities = require(".")
   const { body, validationResult } = require("express-validator")
   const validate = {}
 const accountModel = require("../models/account-model")
 
-  /*  **********************************
-  *  Registration Data Validation Rules
-  * ********************************* */
+  //Registration Data Validation Rules
   validate.registrationRules = () => {
     return [
-      // firstname is required and must be string
       body("account_firstname")
         .trim()
         .escape()
         .notEmpty()
         .isLength({ min: 1 })
-        .withMessage("Please provide a first name."), // on error this message is sent.
+        .withMessage("Please provide a first name."),
   
-      // lastname is required and must be string
       body("account_lastname")
         .trim()
         .escape()
         .notEmpty()
         .isLength({ min: 2 })
-        .withMessage("Please provide a last name."), // on error this message is sent.
+        .withMessage("Please provide a last name."),
   
-      // valid email is required and cannot already exist in the DB
-      //body("account_email")
-      //.trim()
-      //.escape()
-      //.notEmpty()
-      //.isEmail()
-      //.normalizeEmail() // refer to validator.js docs
-      //.withMessage("A valid email is required."),
-
-      // valid email is required and cannot already exist in the database - unit 4
       body("account_email")
       .trim()
       .isEmail()
-      .normalizeEmail() // refer to validator.js docs
+      .normalizeEmail() 
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
       const emailExists = await accountModel.checkExistingEmail(account_email)
@@ -48,7 +33,6 @@ const accountModel = require("../models/account-model")
       }
       }),
   
-      // password is required and must be strong password
       body("account_password")
         .trim()
         .notEmpty()
@@ -65,11 +49,10 @@ const accountModel = require("../models/account-model")
 
   validate.loginRules = () => {
     return [
-      // valid email is required and cannot already exist in the database - unit 4
       body("account_email")
       .trim()
       .isEmail()
-      .normalizeEmail() // refer to validator.js docs
+      .normalizeEmail() 
       .withMessage("A valid email is required.")
       .custom(async (account_email) => {
       const emailExists = await accountModel.checkExistingEmail(account_email)
@@ -92,89 +75,74 @@ const accountModel = require("../models/account-model")
     ]
   }
 
-    /* ******************************
- * Rules for adding a Classification in Managment view
- * ***************************** */
+    // Rules for adding a Classification in Managment view
     validate.ClassificationRules = () => {
       return [
         body("classification_name")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a correct classification name."), // on error this message is sent.
+          .withMessage("Please provide a correct classification name."),
       ]
     }
 
     validate.InventoryListRules = () => {
       return [
-
-        // make is required and must be string
         body("inv_make")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a make."), // on error this message is sent.
+          .withMessage("Please provide a make."),
     
-        // model is required and must be string
         body("inv_model")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a model."), // on error this message is sent.
+          .withMessage("Please provide a model."),
   
-        // description is required and must be string
         body("inv_description")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a description."), // on error this message is sent.
+          .withMessage("Please provide a description."),
     
-        // image path is required and must be string
         body("inv_image")
           .trim()
           .notEmpty()
-          .withMessage("Please provide an image path."), // on error this message is sent.
+          .withMessage("Please provide an image path."),
 
-          // thumbnail is required and must be string
         body("inv_thumbnail")
         .trim()
         .notEmpty()
-        .withMessage("Please provide a thumbnail path."), // on error this message is sent.
+        .withMessage("Please provide a thumbnail path."),
 
-        // price is required and must be string
         body("inv_price")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a price."), // on error this message is sent.
+          .withMessage("Please provide a price."),
 
-          // year is required and must be string
         body("inv_year")
         .trim()
         .escape()
         .notEmpty()
-        .withMessage("Please provide a year."), // on error this message is sent.
+        .withMessage("Please provide a year."),
 
-        // miles are required and must be string
         body("inv_miles")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide the miles"), // on error this message is sent.
+          .withMessage("Please provide the miles"),
 
-          // color is required and must be string
         body("inv_color")
         .trim()
         .escape()
         .notEmpty()
-        .withMessage("Please provide a color"), // on error this message is sent.
+        .withMessage("Please provide a color"),
       ]
     }
     
-
-  /* ******************************
- * Check data and return errors or continue to login
- * ***************************** */
+  // Check data and return errors or continue to login
   validate.checkLogData = async (req, res, next) => {
     const {account_email } = req.body
     let errors = []
@@ -192,10 +160,7 @@ const accountModel = require("../models/account-model")
     next()
   }
 
-
-  /* ******************************
- * Check data and return errors or continue to registration
- * ***************************** */
+//Check data and return errors or continue to registration
 validate.checkRegData = async (req, res, next) => {
     const { account_firstname, account_lastname, account_email } = req.body
     let errors = []
