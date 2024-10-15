@@ -71,22 +71,30 @@ invCont.InventoryView = async function (req, res, next) {
 }
 
 // unit 4 assignment - add classification
-/* invCont.AddNewClassification = async function (req, res, next) {
+ invCont.AddNewClassification = async function (req, res, next) {
   let nav = await utilities.getNav()
   const { classification_name } = req.body
   const classResults = await invModel.addClassification(classification_name)
 
   if (classResults) {
     req.flash("notice", "Classification added successfully.")
-    res.redirect("/inv/")
+    res.status(201).render("inventory/management", {
+      title: "Mangement",
+      nav,
+      errors: null,
+    })
   } else {
     req.flash("notice", "Failed to add classification.")
-    res.redirect("/inv/add-new-classification")
+    res.status(501).render("inventory/add-new-classification", {
+      title: "Add New Classification",
+      nav,
+      errors: null,
+    })
   }
-} */
+} 
 
   // unit 4 assignment - add classification
-  invCont.AddNewClassification = async function (req, res, next) {
+ /* invCont.AddNewClassification = async function (req, res, next) {
     try {
       let nav = await utilities.getNav()
       const { classification_name } = req.body
@@ -104,7 +112,7 @@ invCont.InventoryView = async function (req, res, next) {
       req.flash("error", "An error occurred while adding the classification.")
       res.redirect("/inv/add-new-classification")
     }
-  }
+  }*/
   
 // unit 4 assignment - add inventory
 invCont.AddNewInventory = async function (req, res) {
