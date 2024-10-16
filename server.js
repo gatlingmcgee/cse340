@@ -19,7 +19,8 @@ const pool = require('./database/')
 const accountRoute = require('./routes/accountRoute')
 // register package route - unit 4
 const bodyParser = require("body-parser")
-
+// unit 5 - login process
+const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Middleware
@@ -46,6 +47,10 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 
+// unit 5 login process
+app.use(cookieParser())
+app.use(utilities.checkJWTToken)
+
 /* ***********************
  * View engine and templates
  *************************/
@@ -56,16 +61,11 @@ app.set("layout", "./layouts/layout")
 /* ***********************
  * Routes
  *************************/
-//app.use(flash())
 app.use(static)
+
 // Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
-//May need to delete these next two lines
-/*
-app.get("/", function(req, res){
-  res.render("index", {title: "Home"})
-})
-*/
+
 // Inventory routes
 app.use("/inv", inventoryRoute)
 
@@ -82,21 +82,6 @@ app.use(async (req, res, next) => {
 * Express Error Handler
 * Place after all other middleware - unit 3
 *************************/
-
-/*
-//404 errors
-app.use(async (err, req, res, next) => {
-  let nav = await utilities.getNav()
-  console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Try a different route, maybe, maybe not?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
-    message,
-    nav
-  })
-})
-  */
-
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)

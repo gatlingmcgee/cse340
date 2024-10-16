@@ -12,6 +12,9 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 // Route to build the account register page - unit 4
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+// Route to build the login success page - unit 5
+router.get("/", utilities.handleErrors(accountController.loginSuccess))
+
 // Route to register an account and process the registration data - unit 4
 router.post(
     "/register",
@@ -20,11 +23,13 @@ router.post(
     utilities.handleErrors(accountController.registerAccount)
   )
 
-// Process the login attempt
+// unit 4, Process the login attempt
 router.post(
     "/login",
     regValidate.loginRules(),
     regValidate.checkLogData,
+    //unit 5, login process
+    utilities.handleErrors(accountController.accountLogin),
     (req, res) => {
       res.status(200).send('login process')
     }
