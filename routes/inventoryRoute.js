@@ -37,4 +37,17 @@ router.post(
     Util.handleErrors(invController.AddNewInventory)
   )
 
+// unit 5 - routing the get inventory for inventory table
+router.get("/getInventory/:classification_id", Util.handleErrors(invController.getInventoryJSON))
+
+// unit 5 - routing the vehicle edit view
+router.get("/edit/:inv_id", Util.handleErrors(invController.buildInvEdit))
+
+// unit 5 - inventory route for edit page
+router.post("/update/",
+  regValidate.InventoryListRules(),
+  regValidate.checkUpdateData,
+  Util.handleErrors(invController.updateInventory)
+)
+
 module.exports = router

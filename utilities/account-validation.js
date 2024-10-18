@@ -197,8 +197,9 @@ validate.checkRegData = async (req, res, next) => {
     next()
   }
 
+  // unit 5 - checks for the entire inventory list
   validate.checkInventoryData = async (req, res, next) => {
-    const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color } = req.body
+    const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -217,6 +218,36 @@ validate.checkRegData = async (req, res, next) => {
         inv_year,
         inv_miles,
         inv_color,
+        classification_id
+      })
+      return
+    }
+    next()
+  }
+
+  // unit 5 - redirects errors back to the edit view
+  validate.checkUpdateData = async (req, res, next) => {
+    const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id, classification_id } = req.body
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      let nav = await utilities.getNav()
+      res.render("inventory/edit-vehicle", {
+        errors,
+        title: "Edit ",
+        nav,
+        classificationList,
+        inv_make,
+        inv_model,
+        inv_description,
+        inv_image,
+        inv_thumbnail,
+        inv_price,
+        inv_year,
+        inv_miles,
+        inv_color,
+        inv_id,
+        classification_id
       })
       return
     }

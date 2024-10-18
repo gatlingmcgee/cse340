@@ -13,7 +13,7 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
 // Route to build the login success page - unit 5
-router.get("/", utilities.handleErrors(accountController.loginSuccess))
+router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.loginSuccess))
 
 // Route to register an account and process the registration data - unit 4
 router.post(

@@ -1,15 +1,35 @@
 <%# unit 4 assignment%>
-<%# implement a value for the <title> element thats closely associated to have a <h1> heading that does the same thing. %>
-    <% if (title) { %>
-        <h1><%= title %></h1>
-        <% } else {
-          res.redirect('/')
-        } %>
+<%# unit 5 assignment%>
+<%# -4 implement a value for the <title> element thats closely associated to have a <h1> heading that does the same thing. %>
+<%# -5 added manage inventory %>
+
+<%- messages() %>
+
+<% if (errors) { %>
+  <ul class="notice">
+ <% errors.array().forEach(error => { %>
+   <li><%= error.msg %></li>
+<%  }) %>
+ </ul>
+<% } %>
+
+<% if (title) { %>
+    <h1><%= title %></h1>
+    <% } else {
+        res.redirect('/')
+    } %>
     
-    <body>
-        <div>
-            <a href="/inv/add-new-classification">Add Classification</a>
-            <a href="/inv/add-new-inventory">add inventory</a>
-            <main>
-        </div>
-    </body>
+
+    <div class="managmentview">
+        <a href="/inv/add-new-classification">Add New Classification</a>
+        <a href="/inv/add-new-inventory">Add New inventory</a>
+    </div>
+
+
+    <h2>Manage Inventory</h2>
+    <p>select a classification from the list</p>
+    <%- classificationSelect %>
+    <table id="inventoryDisplay"></table>
+    <noscript>javaScript must be enabled to use this page.</noscript>
+
+    <script src="../../js/inventory.js"></script>

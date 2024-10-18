@@ -145,6 +145,92 @@ nav {
   font-style: italic;
 }
 
+.formdetails {
+  border: 1px solid #59595A;
+  margin: 10px;
+  padding: 10px;
+  width: 90%;
+  height: auto;
+  background-color: #506897;
+  color: white;
+  border-radius: 10px;
+  text-align: center;
+}
+
+#account_email, #account_password,#account_firstname, #account_lastname {
+  border: 0px solid;
+  border-radius: 5px;
+  margin: 10px;
+  padding: 5px;
+  width: 80%;
+  height: 30px;
+}
+
+.formdetails p, .formdetails a {
+  color: white;
+  font-size: 20px;
+}
+
+.formdetails label {
+  float: left;
+}
+
+input:required:invalid {
+  background-color: #F8DEDE;
+ }
+
+ input:required:valid {
+  background-color: #DEF8EC;
+ }
+
+.formdetailsinventory {
+  border: 1px solid #59595A;
+  margin: 40px;
+  padding: 10px;
+  width: 80%;
+  height: auto;
+  background-color: #506897;
+  color: white;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+#classification_name {
+  margin: 12px;
+}
+
+.managmentview a {
+  color: var(--navBackgroundColor);
+  display: block;
+  padding: 5px;
+  font-size: 20px;
+}
+
+#inventoryDisplay{
+  padding: 10px;
+}
+
+#inventoryDisplay thead, tbody{
+  background-color: var(--navBackgroundColor);
+  color: white;
+}
+
+#inventoryDisplay a{
+  color: white;
+}
+
+#inventoryDisplay td{
+  padding: 10px;
+}
+
+.loginsuccessmessage {
+  font-size: 30px;
+  text-align: center;
+  font-style: italic;
+  color: var(--navBackgroundColor);
+}
+
 /*************** Larger (Computer) View ***************/
 
 @media (min-width: 768px) {
@@ -231,32 +317,6 @@ nav {
     margin-bottom: 120px;
   }
 
-  .formdetails {
-    border: 1px solid #59595A;
-    margin: 10px;
-    padding: 10px;
-    width: 70%;
-    height: auto;
-    background-color: #506897;
-    color: white;
-    border-radius: 10px;
-    text-align: center;
-  }
-
-  .formdetails p, .formdetails a {
-    color: white;
-    font-size: 20px;
-  }
-
-  #account_email, #account_password,#account_firstname, #account_lastname {
-    border: 0px solid;
-    border-radius: 5px;
-    margin: 10px;
-    padding: 5px;
-    width: 80%;
-    height: 30px;
-  }
-
   .buttonL {
     border: 0px solid;
     border-radius: 20px;
@@ -269,29 +329,17 @@ nav {
     cursor: pointer;
   }
 
-  .formdetails label {
-    float: left;
+  .formdetails {
+    width: 70%;
   }
 
-  input:required:invalid {
-    background-color: #F8DEDE;
-   }
-
-   input:required:valid {
-    background-color: #DEF8EC;
-   }
+  #classification_name {
+    margin: 5px;
+  }
 
   .formdetailsinventory {
-    border: 1px solid #59595A;
-    margin: 40px;
-    padding: 10px;
-    width: 30%;
-    height: auto;
-    background-color: #506897;
-    color: white;
-    border-radius: 10px;
-    display: flex;
-    flex-direction: column;
+    width: 70%;
+    margin: 0 auto;
   }
 
 }
