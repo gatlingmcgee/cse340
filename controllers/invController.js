@@ -97,29 +97,7 @@ invCont.InventoryView = async function (req, res, next) {
       errors: null
     })
   }
-} 
-
-  // unit 4 assignment - add classification
- /* invCont.AddNewClassification = async function (req, res, next) {
-    try {
-      let nav = await utilities.getNav()
-      const { classification_name } = req.body
-      const classResults = await invModel.addClassification(classification_name)
-  
-      if (classResults) {
-        req.flash("success", "Classification added successfully.")
-        res.redirect("/inv/")
-      } else {
-        req.flash("error", "Failed to add classification.")
-        res.redirect("/inv/add-new-classification")
-      }
-    } catch (error) {
-      console.error("Error adding classification:", error)
-      req.flash("error", "An error occurred while adding the classification.")
-      res.redirect("/inv/add-new-classification")
-    }
-  }*/
-
+}
   
 // unit 4 assignment - add inventory
 invCont.AddNewInventory = async function (req, res) {

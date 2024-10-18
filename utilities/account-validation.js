@@ -82,8 +82,9 @@ const accountModel = require("../models/account-model")
           .trim()
           .escape()
           .notEmpty()
-          .withMessage("Please provide a correct classification name."),
-      ]
+          .matches("^[A-Za-z]+$")
+          .withMessage("Please provide a correct classification name.")
+        ]
     }
 
     validate.InventoryListRules = () => {
@@ -199,10 +200,11 @@ validate.checkRegData = async (req, res, next) => {
 
   // unit 5 - checks for the entire inventory list
   validate.checkInventoryData = async (req, res, next) => {
-    const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id } = req.body
+    const { inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, classification_id } = req.body
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
+      const classificationList = await utilities.buildClassificationList()
       let nav = await utilities.getNav()
       res.render("inventory/add-new-inventory", {
         errors,
