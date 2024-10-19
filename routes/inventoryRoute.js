@@ -50,4 +50,14 @@ router.post("/update/",
   Util.handleErrors(invController.updateInventory)
 )
 
+// unit 5 - delete an item router for delete page
+router.get("/delete/:inv_id", Util.handleErrors(invController.buildDeleteView))
+
+// unit 5 - inventory route for edit page
+router.post("/delete/",
+  //regValidate.InventoryListRules(),
+  //regValidate.checkUpdateData,
+  Util.handleErrors(invController.deleteItem)
+)
+
 module.exports = router

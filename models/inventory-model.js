@@ -71,4 +71,16 @@ async function updateInventory(inv_make, inv_model, inv_description, inv_image, 
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, AddNewInventory, updateInventory }
+// unit 5 assignment - delete an item
+async function deleteInventoryItem(inv_id) {
+  try {
+    const sql = `DELETE FROM inventory WHERE inv_id = $1`
+    const data = await pool.query(sql, [inv_id])
+    return data
+  } catch (error) {
+    console.error("Delete Inventory Error " + error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, AddNewInventory, updateInventory, deleteInventoryItem }
