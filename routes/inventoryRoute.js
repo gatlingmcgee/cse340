@@ -15,9 +15,9 @@ router.get("/detail/:inv_id", Util.handleErrors(invController.getVehicleDetails)
 router.get("/intentional-error", Util.handleErrors(invController.triggerError))
 
 // unit 4 assignment - route for management view
-router.get("/", Util.handleErrors(invController.managementView))
+router.get("/", Util.checkAccountType, Util.handleErrors(invController.managementView))
 
-// route to add a new classification
+// route to add a new classification - unit 5 - call 
 router.get("/add-new-classification", Util.handleErrors(invController.classificationView))
 
 router.post(

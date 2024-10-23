@@ -115,13 +115,25 @@ Util.checkJWTToken = (req, res, next) => {
       return res.redirect("/account/login")
      }
      res.locals.accountData = accountData
-     res.locals.loggedin = 1
+     res.locals.loggedin = true
      next()
     })
   } else {
    next()
   }
  }
+
+ // unit 5 - checks for login type
+Util.checkAccountType = (req, res, next) => {
+  const accountType = res.locals.accountData?.account_type
+  if (accountType === 'Employee' || accountType === 'Admin') {
+    next()
+  } else {
+    req.flash("notice", "You do not have permission to access this page.")
+    return res.redirect("/account/login")
+  }
+}
+
 
  /* ****************************************
  *  Check Login - unit 5
@@ -130,7 +142,7 @@ Util.checkJWTToken = (req, res, next) => {
   if (res.locals.loggedin) {
     next()
   } else {
-    req.flash("notice", "Please log in.")
+    req.flash("notice", "Login failed")
     return res.redirect("/account/login")
   }
  }

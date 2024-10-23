@@ -15,6 +15,9 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 // Route to build the login success page - unit 5
 router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.loginSuccess))
 
+// Route to build the login update page - unit 5
+router.get("/update/:account_id", utilities.handleErrors(accountController.processUpdate))
+
 // Route to register an account and process the registration data - unit 4
 router.post(
     "/register",
@@ -33,6 +36,20 @@ router.post(
     (req, res) => {
       res.status(200).send('login process')
     }
+  )
+
+  // unit 5 - account route for update page (firstname, lastname and email)
+router.post("/updateaccount/",
+  regValidate.accountUpdateListRules(),
+  regValidate.checkAccountUpdateData,
+  utilities.handleErrors(accountController.updateAccount)
+)
+
+  // unit 5 - account route for update page (password)
+  router.post("/updatepassword/",
+    regValidate.passwordChangeRules(),
+    regValidate.checkAccountPasswordUpdateData,
+    utilities.handleErrors(accountController.changePassword)
   )
 
 module.exports = router

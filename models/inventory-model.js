@@ -35,6 +35,17 @@ async function getVehicleById(inv_id) {
   }
 }
 
+// Check for existing class
+async function checkExistingClass(classification_name){
+  try {
+    const sql = "SELECT * FROM classification WHERE classification_name = $1"
+    const checkClass = await pool.query(sql, [classification_name])
+    return checkClass.rowCount
+  } catch (error) {
+    return error.message
+  }
+}
+
 // unit 4 assignment - add the classification
 async function addClassification(classification_name) {
   try {
@@ -83,4 +94,4 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, AddNewInventory, updateInventory, deleteInventoryItem }
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleById, addClassification, AddNewInventory, updateInventory, deleteInventoryItem, checkExistingClass }

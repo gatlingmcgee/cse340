@@ -329,6 +329,17 @@ input:required:invalid {
     cursor: pointer;
   }
 
+  .buttonU {
+    border: 0px solid;
+    border-radius: 20px;
+    display: block;
+    margin: 0 auto;
+    width: 80px;
+    height: 30px;
+    font-size: 11px;
+    cursor: pointer;
+  }
+
   .formdetails {
     width: 70%;
   }

@@ -35,7 +35,8 @@ async function loginSuccess(req, res, next) {
   res.render("account/account", {
     title: "Login Success",
     nav,
-    errors: null
+    errors: null,
+    accountType: req.session.accountType
   })
 } 
 
@@ -82,6 +83,71 @@ async function registerAccount(req, res) {
   }
 }
 
+//unit 5 - create account make view
+async function processUpdate(req, res) {
+  console.log("Account ID from params:", req.params.account_id)
+  const account_id = parseInt(req.params.account_id)
+  let nav = await utilities.getNav()
+  const accountData = await accountModel.getAccountId(account_id)
+
+  res.render("./account/update", {
+    title: "Edit account",
+    nav,
+    errors: null,
+    account_id: accountData.account_id,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email
+  })
+}
+
+// unit 5 - Update Account Data
+async function updateAccount (req, res, next) {
+  let nav = await utilities.getNav()
+  const {account_firstname, account_lastname, account_email, account_id} = req.body
+  const updateResult = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id)
+  console.log({ account_firstname, account_lastname, account_email, account_id })
+
+  if (updateResult) {
+    req.session.userName = account_firstname
+    req.flash("notice", `Your account was successfully updated.`)
+    res.redirect("/account/")
+  } else {
+    req.flash("notice", "Sorry, the update failed.")
+    res.status(501).render("account/update", {
+    title: "Edit account",
+    nav,
+    errors: null,
+    account_firstname,
+    account_lastname,
+    account_email,
+    account_id
+    })
+  }
+}
+
+// Change Password
+async function changePassword(req, res, next) {
+  let nav = await utilities.getNav()
+  const { account_password, account_id } = req.body
+
+  const hashedPassword = await bcrypt.hash(account_password, 10)
+  const updateResult = await accountModel.updatePassword(hashedPassword, account_id)
+
+  if (updateResult) {
+    req.flash("notice", "Your password has been successfully changed.")
+    res.redirect("/account")
+  } else {
+    req.flash("notice", "Sorry, the password change failed.")
+    res.status(501).render("account/update", {
+      title: "Edit Account",
+      nav,
+      errors: null,
+      account_id
+    })
+  }
+}
+
 /* ****************************************
  *  Process login request - unit 5
  * ************************************ */
@@ -104,16 +170,19 @@ async function accountLogin(req, res) {
    if (await bcrypt.compare(account_password, accountData.account_password)) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
+   req.session.loggedin = true
+   req.session.userName = accountData.account_firstname
+   req.session.accountType = accountData.account_type
    if(process.env.NODE_ENV === 'development') {
      res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
      } else {
        res.cookie("jwt", accessToken, { httpOnly: true, secure: true, maxAge: 3600 * 1000 })
      }
-   res.redirect("/account/")
+   res.redirect("/account")
    }
   } catch (error) {
    throw new Error('Access Forbidden')
   }
  }
 
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess, processUpdate, updateAccount, changePassword }

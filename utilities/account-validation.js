@@ -3,6 +3,7 @@ const utilities = require(".")
   const { body, validationResult } = require("express-validator")
   const validate = {}
 const accountModel = require("../models/account-model")
+const invModel = require("../models/inventory-model")
 
   //Registration Data Validation Rules
   validate.registrationRules = () => {
@@ -84,6 +85,12 @@ const accountModel = require("../models/account-model")
           .notEmpty()
           .matches("^[A-Za-z]+$")
           .withMessage("Please provide a correct classification name.")
+          .custom(async (classification_name) => {
+            const classExists = await invModel.checkExistingClass(classification_name)
+          if (classExists){
+              throw new Error("This class already exists")
+          }
+          })
         ]
     }
 
@@ -142,6 +149,53 @@ const accountModel = require("../models/account-model")
         .withMessage("Please provide a color"),
       ]
     }
+
+    //unit 5 - update account errors (firstname, lastname and email)
+    validate.accountUpdateListRules = () => {
+      return [
+        body("account_firstname")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a first name."),
+    
+        body("account_lastname")
+          .trim()
+          .escape()
+          .notEmpty()
+          .withMessage("Please provide a last name."),
+  
+          body("account_email")
+          .trim()
+          .isEmail()
+          .normalizeEmail() 
+          .withMessage("A valid email is required.")
+          .custom(async (account_email) => {
+          const emailExists = await accountModel.checkExistingEmail(account_email)
+          if (emailExists){
+              throw new Error("Email exists. Please use different email")
+          }
+          })
+      ]
+    }
+
+    //unit 5 - update account errors (password)
+    validate.passwordChangeRules = () => {
+      return [
+        body("account_password")
+          .trim()
+          .notEmpty()
+          .isStrongPassword({
+            minLength: 12,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+          })
+          .withMessage("Password does not meet requirements."),
+      ]
+    }
+
     
   // Check data and return errors or continue to login
   validate.checkLogData = async (req, res, next) => {
@@ -230,6 +284,7 @@ validate.checkRegData = async (req, res, next) => {
   // unit 5 - redirects errors back to the edit view
   validate.checkUpdateData = async (req, res, next) => {
     const { classificationList, inv_make, inv_model, inv_description, inv_image, inv_thumbnail, inv_price, inv_year, inv_miles, inv_color, inv_id, classification_id } = req.body
+    const classificationSelect = await utilities.buildClassificationList(classification_id)
     let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
@@ -249,11 +304,50 @@ validate.checkRegData = async (req, res, next) => {
         inv_miles,
         inv_color,
         inv_id,
-        classification_id
+        classification_id,
+        classificationSelect
       })
       return
     }
     next()
   }
+
+    // unit 5 - redirects errors back to the update view
+    validate.checkAccountUpdateData = async (req, res, next) => {
+      const { account_firstname, account_lastname, account_email } = req.body
+      let errors = []
+      errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/update", {
+          errors,
+          title: "Edit ",
+          nav,
+          account_firstname,
+          account_lastname,
+          account_email
+        })
+        return
+      }
+      next()
+    }
+
+    validate.checkAccountPasswordUpdateData = async (req, res, next) => {
+      const { account_password, account_id } = req.body
+      let errors = []
+      errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/update", {
+          errors,
+          title: "Edit ",
+          nav,
+          account_password,
+          account_id
+        })
+        return
+      }
+      next()
+    }
   
   module.exports = validate
