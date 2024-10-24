@@ -157,7 +157,7 @@ nav {
   text-align: center;
 }
 
-#account_email, #account_password,#account_firstname, #account_lastname {
+#account_email, #account_password,#account_firstname, #account_lastname, #account_phone {
   border: 0px solid;
   border-radius: 5px;
   margin: 10px;

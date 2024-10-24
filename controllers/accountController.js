@@ -40,6 +40,32 @@ async function loginSuccess(req, res, next) {
   })
 } 
 
+// membership signup - unit 6
+async function buildMembershipSignup(req, res, next) {
+  let nav = await utilities.getNav()
+  const accountData = await accountModel.getAccountId(req.params.account_id);
+  res.render("account/membership", {
+    title: "Membership Signup",
+    nav,
+    errors: null,
+    account_id: accountData.account_id,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+    account_phone: accountData.account_phone
+  })
+} 
+
+// membership signup - unit 6
+async function buildMembershipSuccessView(req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/membership-success", {
+    title: "Membership Success",
+    nav,
+    errors: null
+  })
+} 
+
 // Process Registration
 
 async function registerAccount(req, res) {
@@ -106,12 +132,11 @@ async function updateAccount (req, res, next) {
   let nav = await utilities.getNav()
   const {account_firstname, account_lastname, account_email, account_id} = req.body
   const updateResult = await accountModel.updateAccount(account_firstname, account_lastname, account_email, account_id)
-  console.log({ account_firstname, account_lastname, account_email, account_id })
 
   if (updateResult) {
     req.session.userName = account_firstname
     req.flash("notice", `Your account was successfully updated.`)
-    res.redirect("/account/")
+    res.redirect("/account")
   } else {
     req.flash("notice", "Sorry, the update failed.")
     res.status(501).render("account/update", {
@@ -144,6 +169,26 @@ async function changePassword(req, res, next) {
       nav,
       errors: null,
       account_id
+    })
+  }
+}
+
+// unit 5 - Update Account Data
+async function membershipSignup (req, res, next) {
+  let nav = await utilities.getNav()
+  const {account_id, account_phone} = req.body
+  const memberResult = await accountModel.clientToMember(account_id, account_phone)
+
+  if (memberResult) {
+    req.session.accountType = 'Member';
+    res.redirect("membership-success")
+  } else {
+    req.flash("notice", "Sorry, the membership signup failed.")
+    res.status(501).render("account/membership", {
+    title: "Membership Signup",
+    nav,
+    errors: null,
+    account_id
     })
   }
 }
@@ -185,4 +230,6 @@ async function accountLogin(req, res) {
   }
  }
 
-  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess, processUpdate, updateAccount, changePassword }
+  module.exports = { buildLogin, buildRegister, registerAccount, accountLogin, loginSuccess, processUpdate, updateAccount, changePassword, buildMembershipSignup, membershipSignup, buildMembershipSuccessView
+
+   }

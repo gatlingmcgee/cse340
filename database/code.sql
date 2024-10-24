@@ -1,5 +1,5 @@
 CREATE TYPE public.account_type AS ENUM
-    ('Client', 'Employee', 'Admin');
+    ('Client', 'Employee', 'Admin', 'Member');
 
 ALTER TYPE public.account_type
     OWNER TO cse340_5;
@@ -38,6 +38,7 @@ CREATE TABLE IF NOT EXISTS public.account
     account_firstname character varying NOT NULL,
     account_lastname character varying NOT NULL,
     account_email character varying NOT NULL,
+    account_phone character varying NOT NULL DEFAULT 'no_number_provided' ::account_phone,
     account_password character varying NOT NULL,
     account_type account_type NOT NULL DEFAULT 'Client'::account_type,
     CONSTRAINT account_pkey PRIMARY KEY (account_id)

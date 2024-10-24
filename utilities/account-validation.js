@@ -196,6 +196,37 @@ const invModel = require("../models/inventory-model")
       ]
     }
 
+        //unit 6 - membership signup errors
+        validate.memberSignupRules = () => {
+          return [
+            body("account_firstname")
+              .trim()
+              .escape()
+              .notEmpty()
+              .withMessage("Please provide a first name."),
+        
+            body("account_lastname")
+              .trim()
+              .escape()
+              .notEmpty()
+              .withMessage("Please provide a last name."),
+      
+              body("account_email")
+              .trim()
+              .isEmail()
+              .normalizeEmail() 
+              .withMessage("Please provide an email."),
+
+              body("account_phone")
+              .trim()
+              .escape()
+              .notEmpty()
+              .matches(/^\d{3}-\d{3}-\d{4}$/)
+              .withMessage("Please provide a phone number")
+              .withMessage("Phone number must be in the format XXX-XXX-XXXX")
+          ]
+        }
+
     
   // Check data and return errors or continue to login
   validate.checkLogData = async (req, res, next) => {
@@ -343,6 +374,27 @@ validate.checkRegData = async (req, res, next) => {
           title: "Edit ",
           nav,
           account_password,
+          account_id
+        })
+        return
+      }
+      next()
+    }
+
+    validate.checkMembershipData = async (req, res, next) => {
+      const { account_firstname, account_lastname, account_email, account_phone, account_id } = req.body
+      let errors = []
+      errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("account/membership", {
+          errors,
+          title: "Membership Signup",
+          nav,
+          account_firstname,
+          account_lastname,
+          account_email,
+          account_phone,
           account_id
         })
         return

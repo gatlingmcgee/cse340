@@ -18,6 +18,12 @@ router.get("/", utilities.checkLogin, utilities.handleErrors(accountController.l
 // Route to build the login update page - unit 5
 router.get("/update/:account_id", utilities.handleErrors(accountController.processUpdate))
 
+// Route to build the membership signup page - unit 6
+router.get("/membership/:account_id", utilities.handleErrors(accountController.buildMembershipSignup))
+
+// Route to build the membership success page - unit 6
+router.get("/membership-success", utilities.handleErrors(accountController.buildMembershipSuccessView))
+
 // Route to register an account and process the registration data - unit 4
 router.post(
     "/register",
@@ -50,6 +56,12 @@ router.post("/updateaccount/",
     regValidate.passwordChangeRules(),
     regValidate.checkAccountPasswordUpdateData,
     utilities.handleErrors(accountController.changePassword)
+  )
+
+  router.post("/membersignup/",
+    regValidate.memberSignupRules(),
+    regValidate.checkMembershipData,
+    utilities.handleErrors(accountController.membershipSignup)
   )
 
 module.exports = router
