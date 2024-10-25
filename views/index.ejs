@@ -11,6 +11,15 @@
 
         <img class ="heroimage" src="/images/vehicles/delorean-tn.jpg" alt="DeloreanHeroImage">
 
+        <% if (session.accountType === 'Member') { %>
+            <div class="membershipfloatdiv membership-message">
+                <h3>DISCOUNT FOR MEMBERS!</h3>
+                <p>Congratulations! As a member, you get special discounts!</p>
+                <a href="#">Get a discount now!</a>
+            </div>
+            <br>
+        <% } %>
+
         <div class="containerreviewandupgrades">
             <div class="reviewdiv">
                 <h2>DMC Delorean Reviews</h2>

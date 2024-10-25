@@ -17,20 +17,21 @@
       res.redirect('/')
     } %>
 
-<p class="loginsuccessmessage">Success! you have logged in.</p>
+<% if (session.loginmessage) { %>
+  <p class="loginsuccessmessage">Success! You have logged in.</p>
+<% session.loginmessage = false %>
+<% } %>
 
-<h2>Welcome back <%= session.userName %>!</h2>
-<!-- Link leads to new "update" page -->
+<h2>Welcome back, <%= session.userName %>!</h2>
 <a href="account/update/<%= accountData.account_id %>">Account Update</a>
 
-<% if (session.accountType === 'Employee' || session.accountType === 'Admin') { %>
-    <h3>Inventory Management</h3>
-    <p><a href="/inv">Inventory Management</a></p>
-<% } %>
+  <% if (session.accountType === 'Employee' || session.accountType === 'Admin') { %>
+      <h3>Inventory Management</h3>
+      <p><a href="/inv">Inventory Management</a></p>
+  <% } %>
 
-<% if (session.accountType === 'Client') { %>
-  <br>
-  <br>
-  <h3>Membership Signup</h3>
-  <a href="account/membership/<%= accountData.account_id %>">Sign up as a member today!</a>
-<% } %>
+  <% if (session.accountType === 'Client') { %>
+    <br>
+    <h3>Membership Signup</h3>
+    <a href="account/membership/<%= accountData.account_id %>">Sign up as a member today!</a>
+  <% } %>

@@ -231,6 +231,43 @@ input:required:invalid {
   color: var(--navBackgroundColor);
 }
 
+.membershipfloatdiv {
+  z-index: 5;
+  background-color: #E38384;
+  padding: 10px;
+  width: 90%;
+  margin: 0 auto;
+  margin-top: 30px;
+  text-align: center;
+  height: 190px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.membershipfloatdiv p {
+  padding: 0;
+  margin: 13px;
+  color: black;
+  font-size: 20px;
+  text-align: center;
+}
+
+
+.membershipfloatdiv h3 {
+  margin-bottom: 1px;
+  color: black;
+  font-weight: bold;
+  font-size: 25px;
+  text-align: center;
+}
+
+.membershipfloatdiv a {
+  text-decoration: none;
+  color: white;
+  background-color: #AD1A1A;
+  padding: 5px;
+  font-size: 20px;
+}
+
 /*************** Larger (Computer) View ***************/
 
 @media (min-width: 768px) {
@@ -352,5 +389,18 @@ input:required:invalid {
     width: 70%;
     margin: 0 auto;
   }
+
+  .membershipfloatdiv {
+    height: 165px;
+  }
+
+  .membership-message h3::before {
+      content: "🎉";
+  }
+
+  .membership-message h3::after {
+      content: "🎉";
+  }
+
 
 }

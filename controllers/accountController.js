@@ -216,6 +216,7 @@ async function accountLogin(req, res) {
    delete accountData.account_password
    const accessToken = jwt.sign(accountData, process.env.ACCESS_TOKEN_SECRET, { expiresIn: 3600 })
    req.session.loggedin = true
+   req.session.loginmessage = true
    req.session.userName = accountData.account_firstname
    req.session.accountType = accountData.account_type
    if(process.env.NODE_ENV === 'development') {
